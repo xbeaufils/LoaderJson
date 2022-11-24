@@ -1,6 +1,7 @@
 
-from mysql.connector import (connection)
-import mariadb
+#from mysql.connector import (connection)
+#import mariadb
+import mysql.connector
 from datetime import datetime
 # from dateutil.parser import parse #pip install python-dateutil
 
@@ -9,7 +10,7 @@ import json
 class Loader:
 
     def __init__(self, filename, cheptel):
-        self.sql = mariadb.connect(user='root', password='xavier', host='127.0.0.1',
+        self.sql = mysql.connector.connect(user='root', password='xavier', host='127.0.0.1',
                                          database='gismodb')
         self.filename = filename
         self.cheptel = cheptel
@@ -148,7 +149,7 @@ class Loader:
         dateSaillie = self.transformDate(echo["dateSaillie"])
         bete_id = self.beteMap[echo["bete_id"]]["idBd"]
         cursor = self.sql.cursor()
-        cursor.execute("insert into echo (id, dateAgnelage, dateEcho, dateSaillie, nombre, bete_id) " 
+        cursor.execute("insert into Echo (id, dateAgnelage, dateEcho, dateSaillie, nombre, bete_id) " 
                        "VALUES (%s, %s, %s, %s, %s, %s)",
                     (idBd, dateAgnelage, dateEcho, dateSaillie,echo["nombre"],bete_id))
         cursor.close()
@@ -195,8 +196,7 @@ class Loader:
         idBd = self.nextId()
         debut = self.transformDate(memo["debut"]) #: "02/10/2022",
         fin = self.transformDate(memo["fin"]) #: "08/10/2022",
-        #memo["classe"] #: "INFO",
-        memo["note"] #: "diarrhée ",
+        memo["note"] 
         bete_id = self.beteMap[memo["bete_id"]]["idBd"] #: 49}
         cursor = self.sql.cursor()
         cursor.execute("insert into Note (id, debut, fin, note, bete_id) "
