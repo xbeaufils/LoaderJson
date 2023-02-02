@@ -240,6 +240,8 @@ class Loader:
             motifValue = 0
         elif motif == "ACHAT":
             motifValue = 3
+        elif motif == 'CREATION':
+            motifValue = 1
         return motifValue
 
     @staticmethod
